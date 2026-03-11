@@ -63,10 +63,10 @@ jobs:
 
       # Step 5: Install backend dependencies
       # Some documentation may auto-generate API docs from backend code
-      - name: Install backend dependencies
-        run: |
-          cd backend
-          uv sync --no-dev
+      # - name: Install backend dependencies
+      #   run: |
+      #     cd backend
+      #     uv sync --no-dev
 
       # Step 6: Build the documentation website
       # This command likely runs MkDocs through the Makefile
