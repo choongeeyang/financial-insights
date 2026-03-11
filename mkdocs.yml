@@ -174,7 +174,7 @@ markdown_extensions:
   # Standard extensions
   - admonition
   - abbr
-  - attr_list
+  - attr_list 
   - md_in_html
   - tables
   - footnotes

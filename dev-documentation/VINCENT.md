@@ -4,5 +4,3 @@
 - install dependencies: pip install mkdocs-material mkdocs-minify-plugin
 - serve locally from root: mkdocs serve 
 - build the site locallt: mkdocs build
-
-test
