@@ -1,0 +1,28 @@
+/* FinSight API — custom documentation styles */
+
+:root {
+  --finsight-accent: #00b4d8;
+}
+
+/* Status badges in admonitions */
+.md-typeset .admonition.success > .admonition-title::before {
+  content: "✅ ";
+}
+
+/* Make tables slightly more compact */
+.md-typeset table:not([class]) {
+  font-size: 0.85rem;
+}
+
+/* Mermaid diagrams: center and add breathing room */
+.md-typeset .mermaid {
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+/* Slightly wider content area on large screens */
+@media screen and (min-width: 76.25em) {
+  .md-content {
+    max-width: 960px;
+  }
+}

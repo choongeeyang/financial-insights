@@ -1,0 +1,109 @@
+# Name of the workflow shown in the GitHub Actions UI
+name: Deploy Developer Documentation to GitHub Pages
+
+# Defines when this workflow should run
+on:
+  push:
+    # Trigger only when code is pushed to the main branch
+    branches: [main]
+
+    # Only run the workflow if these files/folders change
+    paths:
+      - docs/**                       # Documentation source files
+      - mkdocs.yml                    # MkDocs configuration file
+      - Makefile                      # Build commands used by make
+      - scripts/**                    # Helper scripts used in documentation generation
+      - backend/**                    # Backend code that docs may reference
+      - frontend/**                   # Frontend code that docs may reference
+      - .github/workflows/deploy-docs-on-main.yml  # If this workflow file itself changes
+
+  # Allows manually triggering the workflow from GitHub UI
+  workflow_dispatch:
+
+# Permissions granted to the workflow
+permissions:
+  contents: read    # Allows the workflow to read repository contents
+  pages: write      # Allows the workflow to deploy to GitHub Pages
+  id-token: write   # Required for secure authentication when deploying
+
+# Prevents multiple deployments running simultaneously
+concurrency:
+  group: "pages"              # All jobs in this group share concurrency control
+  cancel-in-progress: false   # Do not cancel existing deployment runs
+
+# Define the jobs in this workflow
+jobs:
+
+  # First job: build the documentation website
+  build:
+    runs-on: ubuntu-latest   # Use a fresh Ubuntu virtual machine
+
+    steps:
+      # Step 1: Download the repository code
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0     # Fetch full git history (sometimes needed for docs/plugins)
+
+      # Step 2: Install Python (MkDocs runs on Python)
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Step 3: Install uv (fast Python package manager)
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: false
+
+      # Step 4: Configure GitHub Pages deployment environment
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      # Step 5: Install backend dependencies
+      # Some documentation may auto-generate API docs from backend code
+      - name: Install backend dependencies
+        run: |
+          cd backend
+          uv sync --no-dev
+
+      # Step 6: Build the documentation website
+      # This command likely runs MkDocs through the Makefile
+      - name: Build documentation site
+        run: make docs-build
+
+      # Step 7: Upload the generated static site
+      # The "site" folder contains the built HTML/CSS/JS
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  # Second job: deploy the built site
+  deploy:
+    needs: build                 # This job runs only after the build job succeeds
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages         # Deployment environment name
+      url: ${{ steps.deployment.outputs.page_url }}  # URL of deployed site
+
+    steps:
+      # Deploy the uploaded site artifact to GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  # Third job: simple notification step
+  notify:
+    runs-on: ubuntu-latest
+    needs: deploy               # Runs only after deployment finishes
+
+    # Only run this job if everything succeeded
+    if: success()
+
+    steps:
+      # Print a message in the workflow logs
+      - name: Notify deployment
+        run: echo "Documentation deployed successfully"
