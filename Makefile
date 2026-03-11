@@ -14,3 +14,10 @@ build:
 # Optional: deploy to GitHub Pages (if not using GitHub Actions deploy)
 deploy:
 	mkdocs gh-deploy
+
+# for deployment
+docs-serve:
+	mkdocs serve
+
+docs-build:
+	mkdocs build
