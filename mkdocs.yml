@@ -190,3 +190,6 @@ plugins:
       lang: en
   - minify:
       minify_html: true
+  - git-revision-date-localized:
+      type: datetime
+      enable_creation_date: true
