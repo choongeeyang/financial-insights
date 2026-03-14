@@ -12,15 +12,14 @@ services:
     # Command executed during the build phase of deployment.
     # Typically used to install dependencies required by the application.
     buildCommand: |
-      python -m pip install --upgrade pip setuptools wheel
-      pip install -r requirements.txt
+      pip install -r backend/requirements.txt
 
     # Command used to start the application once the build is complete.
     # uvicorn is an ASGI server used to run FastAPI apps.
     # backend.main:app means:
     #   backend/main.py → module
     #   app → FastAPI instance inside that file
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
 
     envVars:
       # Environment variable used by the application (e.g., for CORS configuration).
