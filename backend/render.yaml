@@ -20,7 +20,7 @@ services:
     # backend.main:app means:
     #   backend/main.py → module
     #   app → FastAPI instance inside that file
-    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
 
     envVars:
       # Environment variable used by the application (e.g., for CORS configuration).
