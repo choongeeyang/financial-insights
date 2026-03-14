@@ -1,7 +1,7 @@
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backend.routers import companies, financials
+from routers import companies, financials
 
 app = FastAPI(
     title="FinSight API",
