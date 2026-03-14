@@ -11,8 +11,10 @@ services:
     
     # Command executed during the build phase of deployment.
     # Typically used to install dependencies required by the application.
-    buildCommand: pip install -r requirements.txt
-
+    buildCommand: |
+      python -m pip install --upgrade pip setuptools wheel
+      pip install -r requirements.txt
+      
     # Command used to start the application once the build is complete.
     # uvicorn is an ASGI server used to run FastAPI apps.
     # backend.main:app means:
