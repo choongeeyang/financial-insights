@@ -35,7 +35,7 @@ jobs:
       - name: Type check
         run: npx tsc --noEmit
 
-      - name: Build Next.js app
+      - name: Build Next.js app 
         run: npm run build
         env:
           NEXT_PUBLIC_API_URL: "https://financial-insights-grit.onrender.com" #${{ secrets.NEXT_PUBLIC_API_URL }}
