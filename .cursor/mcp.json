@@ -1,10 +1,10 @@
 {
-    "mcpServers": {
-      "render": {
-        "url": "https://mcp.render.com/mcp",
-        "headers": {
-          "Authorization": "Bearer rnd_Nc75DRJZ7MZJT0Jrle6cjlFD9VxD"
-        }
+  "mcpServers": {
+    "render": {
+      "url": "https://mcp.render.com/mcp",
+      "headers": {
+        "Authorization": "Bearer rnd_Nc75DRJZ7MZJT0Jrle6cjlFD9VxD"
       }
     }
   }
+}
