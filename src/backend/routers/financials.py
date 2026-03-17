@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from backend.data.mock_data import INCOME_STATEMENTS, COMPANIES
-from backend.schemas import IncomeStatementResponse, IncomeStatementEntry
+from data.mock_data import INCOME_STATEMENTS, COMPANIES
+from schemas import IncomeStatementResponse, IncomeStatementEntry
 
 router = APIRouter(prefix="/financials", tags=["financials"])
 

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from backend.data.mock_data import COMPANIES, KPI_SUMMARIES
-from backend.schemas import CompanySummary, CompanyDetail, KPISummary
+from data.mock_data import COMPANIES, KPI_SUMMARIES
+from schemas import CompanySummary, CompanyDetail, KPISummary
 
 router = APIRouter(prefix="/companies", tags=["companies"])
 
