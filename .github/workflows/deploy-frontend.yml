@@ -38,8 +38,8 @@ jobs:
       - name: Build Next.js app
         run: npm run build
         env:
-          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
-          INTERNAL_API_URL: ${{ secrets.INTERNAL_API_URL }}
+          NEXT_PUBLIC_API_URL: "https://financial-insights-grit.onrender.com" #${{ secrets.NEXT_PUBLIC_API_URL }}
+          INTERNAL_API_URL: "https://financial-insights-grit.onrender.com" #${{ secrets.INTERNAL_API_URL }}
 
       - name: Deploy to Vercel (Production)
         uses: amondnet/vercel-action@v25
