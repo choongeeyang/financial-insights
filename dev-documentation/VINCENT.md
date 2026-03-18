@@ -16,3 +16,6 @@
 - auto redeploy when code pushed changes certain files: refer render.yml
 - deployed live on render: 
 - link to swagger UI: https://financial-insights-grit.onrender.com
+- deployed app on vercel: https://finsights-mauve.vercel.app/
+- note: deployed successfully using vercel autodeploy but failed using github actions CI/CD
+

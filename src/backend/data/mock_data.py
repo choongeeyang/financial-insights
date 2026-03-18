@@ -6,23 +6,24 @@ Figures are illustrative and based on approximate public data.
 
 COMPANIES: dict = {
     "MAYBANK": {
-        "ticker": "MAYBANK",
-        "name": "Malayan Banking Berhad",
-        "sector": "Financials",
-        "industry": "Banking",
+        "ticker": "MAYBANK", # manual mapping
+        "name": "Malayan Banking Berhad", # manual mapping
+        "sector": "Financials", # manual mapping
+        "industry": "Banking", # manual mapping
         "description": (
             "Maybank is Malaysia's largest bank and one of the leading financial services "
             "groups in ASEAN. It offers a comprehensive range of financial products and "
             "services including commercial banking, investment banking, insurance, and "
             "Islamic finance across 20 countries."
         ),
-        "market_cap_bln": 102.4,
-        "employees": 43000,
-        "founded": 1960,
-        "headquarters": "Kuala Lumpur, Malaysia",
-        "website": "https://www.maybank.com",
-        "currency": "MYR",
-        "exchange": "KLSE",
+        # Source: External Market API (Requires live stock price. CANNOT get from financial report)
+        "market_cap_bln": 102.4, 
+        "employees": 43000, # can get from financial report for updates
+        "founded": 1960, # manual mapping
+        "headquarters": "Kuala Lumpur, Malaysia", # manual mapping   
+        "website": "https://www.maybank.com", # manual mapping
+        "currency": "MYR", # manual mapping
+        "exchange": "KLSE", # manual mapping
     },
     "CIMB": {
         "ticker": "CIMB",
@@ -159,15 +160,19 @@ COMPANIES: dict = {
 
 KPI_SUMMARIES: dict = {
     "MAYBANK": {
-        "ticker": "MAYBANK",
-        "revenue_bln": 30.2,
-        "net_income_bln": 9.1,
-        "eps": 0.86,
-        "pe_ratio": 12.4,
-        "roe_pct": 10.8,
-        "debt_to_equity": 0.92,
-        "dividend_yield_pct": 5.8,
-        "fiscal_year": 2024,
+        "ticker": "MAYBANK", # Source: Internal mapping
+        "revenue_bln": 30.2, # Source: Financial Report (Income Statement)
+        "net_income_bln": 9.1, # Source: Financial Report (Income Statement - PAT)
+        "eps": 0.86, # Source: Financial Report (Income Statement)
+        # Source: Derived (External Market Price / EPS). Needs separate ETL.
+        "pe_ratio": 12.4, 
+        "roe_pct": 10.8, # Source: Derived (Net Income / Total Equity from Balance Sheet)
+        # Added: Source: Financial Report (Performance Review/Derived). 
+        "roace_pct": 8.2,  
+        "debt_to_equity": 0.92, # Source: Derived (Total Debt / Total Equity from Balance Sheet).
+        # Source: Derived (Annual Dividend Per Share / External Stock Price). Needs separate ETL.
+        "dividend_yield_pct": 5.8, 
+        "fiscal_year": 2024, # Source: Financial Report (Cover Page)
     },
     "CIMB": {
         "ticker": "CIMB",
@@ -176,6 +181,7 @@ KPI_SUMMARIES: dict = {
         "eps": 0.62,
         "pe_ratio": 10.2,
         "roe_pct": 11.2,
+        "roace_pct": 10.0,
         "debt_to_equity": 1.05,
         "dividend_yield_pct": 5.1,
         "fiscal_year": 2024,
@@ -187,6 +193,7 @@ KPI_SUMMARIES: dict = {
         "eps": 0.67,
         "pe_ratio": 18.6,
         "roe_pct": 6.4,
+        "roace_pct": 10.0,
         "debt_to_equity": 1.42,
         "dividend_yield_pct": 3.2,
         "fiscal_year": 2024,
@@ -198,6 +205,7 @@ KPI_SUMMARIES: dict = {
         "eps": 6.22,
         "pe_ratio": None,
         "roe_pct": 14.5,
+        "roace_pct": 10.0,
         "debt_to_equity": 0.28,
         "dividend_yield_pct": None,
         "fiscal_year": 2024,
@@ -209,6 +217,7 @@ KPI_SUMMARIES: dict = {
         "eps": 0.20,
         "pe_ratio": 22.1,
         "roe_pct": 31.4,
+        "roace_pct": 10.0,
         "debt_to_equity": 2.18,
         "dividend_yield_pct": 3.7,
         "fiscal_year": 2024,
@@ -220,6 +229,7 @@ KPI_SUMMARIES: dict = {
         "eps": 0.29,
         "pe_ratio": 14.8,
         "roe_pct": 8.9,
+        "roace_pct": 10.0,
         "debt_to_equity": 1.12,
         "dividend_yield_pct": 4.2,
         "fiscal_year": 2024,
@@ -231,6 +241,7 @@ KPI_SUMMARIES: dict = {
         "eps": 0.52,
         "pe_ratio": 11.6,
         "roe_pct": 5.8,
+        "roace_pct": 10.0,
         "debt_to_equity": 0.76,
         "dividend_yield_pct": 2.1,
         "fiscal_year": 2024,
@@ -242,6 +253,7 @@ KPI_SUMMARIES: dict = {
         "eps": 0.47,
         "pe_ratio": 13.4,
         "roe_pct": 9.3,
+        "roace_pct": 10.0,
         "debt_to_equity": 0.58,
         "dividend_yield_pct": 3.6,
         "fiscal_year": 2024,
@@ -250,7 +262,17 @@ KPI_SUMMARIES: dict = {
 
 INCOME_STATEMENTS: dict = {
     "MAYBANK": [
-        {"fiscal_year": 2020, "revenue_bln": 24.8, "gross_profit_bln": 16.2, "operating_income_bln": 10.1, "net_income_bln": 6.5, "eps": 0.62, "gross_margin_pct": 65.3, "operating_margin_pct": 40.7, "net_margin_pct": 26.2},
+        {
+            "fiscal_year": 2020, #Source: Financial Report Date
+            "revenue_bln": 24.8, # Source: Financial Report (Income Statement)
+            "gross_profit_bln": 16.2, # Source: Financial Report (Income Statement)
+            "operating_income_bln": 10.1, # Source: Financial Report (Income Statement)
+            "net_income_bln": 6.5, # Source: Financial Report (Income Statement - PAT)
+            "eps": 0.62, # Source: Financial Report (Income Statement)
+            "gross_margin_pct": 65.3, # Source: Derived (Gross Profit / Revenue)
+            "operating_margin_pct": 40.7, # Source: Derived (Operating Income / Revenue)
+            "net_margin_pct": 26.2, # Source: Derived (Net Income / Revenue)
+        },
         {"fiscal_year": 2021, "revenue_bln": 25.6, "gross_profit_bln": 17.0, "operating_income_bln": 10.8, "net_income_bln": 7.2, "eps": 0.68, "gross_margin_pct": 66.4, "operating_margin_pct": 42.2, "net_margin_pct": 28.1},
         {"fiscal_year": 2022, "revenue_bln": 27.4, "gross_profit_bln": 18.3, "operating_income_bln": 11.6, "net_income_bln": 7.9, "eps": 0.75, "gross_margin_pct": 66.8, "operating_margin_pct": 42.3, "net_margin_pct": 28.8},
         {"fiscal_year": 2023, "revenue_bln": 29.1, "gross_profit_bln": 19.8, "operating_income_bln": 12.4, "net_income_bln": 8.6, "eps": 0.81, "gross_margin_pct": 68.0, "operating_margin_pct": 42.6, "net_margin_pct": 29.6},
@@ -306,3 +328,68 @@ INCOME_STATEMENTS: dict = {
         {"fiscal_year": 2024, "revenue_bln": 8.6, "gross_profit_bln": 2.7, "operating_income_bln": 1.2, "net_income_bln": 1.0, "eps": 0.47, "gross_margin_pct": 31.4, "operating_margin_pct": 14.0, "net_margin_pct": 11.6},
     ],
 }
+
+# --- NEW SECTIONS ADDED BASED ON FEEDBACK --- help me complete for the rest of the companies
+
+BALANCE_SHEETS: dict = {
+    "PETRONAS": [
+        {
+            "fiscal_year": 2025,                  # Source: Financial Report Date 
+            "total_assets_bln": 774.9,            # Source: Financial Report (Statement of Financial Position) 
+            "total_liabilities_bln": 272.8,       # Source: Financial Report (Statement of Financial Position) 
+            "total_equity_bln": 502.1,            # Source: Financial Report (Statement of Financial Position) 
+            "cash_and_equivalents_bln": 204.4,    # Source: Financial Report (Statement of Financial Position)
+            "total_debt_bln": 121.6,              # Source: Financial Report (Notes - Borrowings: Non-Current + Current)
+        }
+    ]
+}
+
+CASH_FLOWS: dict = {
+    "PETRONAS": [
+        {
+            "fiscal_year": 2025,                  # Source: Financial Report Date 
+            "operating_cash_flow_bln": 85.2,      # Source: Financial Report (Statement of Cash Flows) 
+            "capital_expenditure_bln": 41.6,      # Source: Financial Report (Statement of Cash Flows / Performance Review) 
+            "free_cash_flow_bln": 43.6,           # Source: Derived (Operating Cash Flow - Capital Expenditure). Crucial metric for dashboards.
+            "dividends_paid_bln": 32.0            # Source: Financial Report (Statement of Cash Flows) 
+        }
+    ]
+}
+
+
+
+#  A structure for qualitative data extracted via RAG for your dashboards
+QUALITATIVE_INSIGHTS: dict = {
+    "PETRONAS": {
+        "fiscal_year": 2025,                      # Source: Financial Report Date 
+        "future_outlook": "Heightened market volatility... scaling value accretive energy investments and lower-carbon solutions.", # Source: Financial Report (Commentary on Prospects B1) 
+        "key_strategic_events": [                 # Source: Financial Report (Significant Events A6) 
+            "Joint venture with ENI established.", 
+            "Divestment of 20% interest in North Montney Joint Venture." 
+        ]
+    }
+}
+
+# Generic Segment Data structure to handle different industries dynamically - this one on hold for now
+# SEGMENT_DATA: dict = {
+#     "MAYBANK": [
+#         {
+#             "fiscal_year": 2025,                  # Source: Financial Report Date
+#             "segments": [                         # Source: Financial Report (Notes - Operating Segments). 
+#                 {"name": "Community Financial Services", "revenue_bln": 15.1, "profit_bln": 4.5},
+#                 {"name": "Global Banking", "revenue_bln": 10.2, "profit_bln": 3.8},
+#                 {"name": "Insurance & Takaful", "revenue_bln": 4.9, "profit_bln": 0.8}
+#             ]
+#         }
+#     ],
+#     "PETRONAS": [
+#         {
+#             "fiscal_year": 2025,                  # Source: Financial Report Date 
+#             "segments": [                         # Source: Financial Report (Notes - Operating Segments A13) 
+#                 {"name": "Upstream", "revenue_bln": 111.9, "profit_bln": 26.2},
+#                 {"name": "Gas & Maritime", "revenue_bln": 119.9, "profit_bln": 20.9},
+#                 {"name": "Downstream", "revenue_bln": 120.0, "profit_bln": -1.9}
+#             ]
+#         }
+#     ]
+# }
