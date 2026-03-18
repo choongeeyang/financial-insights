@@ -48,7 +48,7 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           working-directory: frontend
-          vercel-args: "--prod --force --cwd frontend"
+          vercel-args: "--prod --force"
         env:
           NEXT_PUBLIC_API_URL: "https://financial-insights-grit.onrender.com" #${{ secrets.NEXT_PUBLIC_API_URL }}
           INTERNAL_API_URL: "https://financial-insights-grit.onrender.com" #${{ secrets.INTERNAL_API_URL }}
