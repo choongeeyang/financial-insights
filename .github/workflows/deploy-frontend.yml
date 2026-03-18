@@ -52,3 +52,4 @@ jobs:
         env:
           NEXT_PUBLIC_API_URL: "https://financial-insights-grit.onrender.com" #${{ secrets.NEXT_PUBLIC_API_URL }}
           INTERNAL_API_URL: "https://financial-insights-grit.onrender.com" #${{ secrets.INTERNAL_API_URL }}
+ 
