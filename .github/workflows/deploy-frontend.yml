@@ -34,9 +34,10 @@ jobs:
           pwd
           ls
           ls frontend
-          
+
       - name: Install dependencies
         run: npm ci
+        working-directory: ./frontend
 
       - name: Type check
         run: npx tsc --noEmit
